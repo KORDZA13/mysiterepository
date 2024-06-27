@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Product Unavailable</h2>
+    <p>Sorry, {{ product.name }} is currently out of stock.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-primary">Back to Products</a>
+</div>
+{% endblock %}

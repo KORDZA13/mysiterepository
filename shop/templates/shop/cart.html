@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load cart_extras %}  <!-- Load your custom template tags/filters -->
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+{% if cart_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>${{ item.product.price|floatformat:2 }} * {{ item.quantity }}</td>
+                <td>
+                    <a href="{% url 'increase_quantity' item.product.id %}" class="btn btn-sm btn-success">+</a>
+                    <a href="{% url 'decrease_quantity' item.product.id %}" class="btn btn-sm btn-warning">-</a>
+                    <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-danger">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total: ${{ cart_items|get_total_price }}</p> <!-- Apply your custom filter here -->
+    <a href="{% url 'create_order' %}" class="btn btn-primary">Checkout</a>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}

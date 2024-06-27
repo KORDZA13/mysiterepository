@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Product Detail{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h1 class="mt-5 mb-4">{{ product.name }}</h1>
+        <p><strong>Category:</strong> {{ product.category.name }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }}</p>
+        {% if product.available %}
+            <p><strong>Availability:</strong> Available</p>
+        {% else %}
+            <p><strong>Availability:</strong> Not Available</p>
+        {% endif %}
+        <p><strong>Created at:</strong> {{ product.created_at }}</p>
+        <p><strong>Updated at:</strong> {{ product.updated_at }}</p>
+        <a href="{% url 'product_list' %}" class="btn btn-secondary">Back to Product List</a>
+    </div>
+    <div class="col-md-6">
+        {% if product.pk == 1 %}
+            <img class="img-fluid" src="{% static 'img/asics-matflex-6.webp' %}" alt="{{ product.name }}">
+        {% elif product.image %}
+            <img class="img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <img class="img-fluid" src="{% static 'img/product-placeholder.jpg' %}" alt="{{ product.name }}">
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
